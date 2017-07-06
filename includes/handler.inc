@@ -34,3 +34,11 @@ function islandora_oai_download_link_object_response_xml($params) {
   $modified_oai_output = $dom->saveXML($dom->documentElement);
   return $modified_oai_output;
 }
+
+/**
+ * Form submit handler.
+ */
+function islandora_oai_download_link_handler_configuration_submit($form, $form_state) {
+  variable_set('islandora_oai_download_link_cmodel_link_mappings', $form_state['values']['islandora_oai_download_links']['islandora_oai_download_link_cmodel_link_mappings']);
+  variable_set('islandora_oai_download_link_allowed_ips', $form_state['values']['islandora_oai_download_links']['islandora_oai_download_link_allowed_ips']);
+}

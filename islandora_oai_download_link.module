@@ -51,16 +51,33 @@ function islandora_oai_download_link_islandora_oai_identify_request_handler() {
 
 /**
  * Implements hook_form_alter().
- *
- * Not working for some reason...
  */
 function islandora_oai_download_link_form_islandora_oai_handler_configuration_form_alter(&$form, $form_state, $form_id) {
-  $form['islandora_oai_download_link_allowed_ips'] = array(
-    'type' => 'textarea',
-    '#title' => t('Allowed IP ranges'),
-    '#description' => t('Enter the IP address ranges, one per line, that are allowed to view objects. ' .
-      'Separate the low and high ends of each range with a colon, e.g. 111.111.111.111:222.222.222.222. ' .
+  module_load_include('inc', 'islandora_oai_download_link', 'includes/handler');
+  $form['islandora_oai_download_links'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Download links'),
+    '#description' => t('This OAI request handler adds elements to the DC records containing ' .
+        'direct links to download a file for each object.'),
+    '#collapsible' => FALSE,
+    '#collapsed' => TRUE,
+  );
+  $form['islandora_oai_download_links']['islandora_oai_download_link_cmodel_link_mappings'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Content model to link mappings for download links'),
+    '#description' => t('Enter, one per line, mappings for which datastream should be included ' .
+      'in the download links provided to harvesters.'),
+      '#default_value' => variable_get('islandora_oai_download_link_cmodel_link_mappings', 'islandora:sp_basic_image = OBJ'),
+  );
+  $form['islandora_oai_download_links']['islandora_oai_download_link_allowed_ips'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Allowed IP ranges for full text download links'),
+    '#description' => t('Enter the IP address ranges, one per line, of ' .
+      ' harvesters that will be provided with download links. Separate the ' .
+      ' low and high ends of each range with a colon, e.g. 111.111.111.111:222.222.222.222. ' .
       ' Asterisks are not allowed. Single IP addresses are also allowed, each on its own line.'),
       '#default_value' => variable_get('islandora_oai_download_link_allowed_ips', ''),
   );
+  $form['submit']['#weight'] = 10;
+  $form['#submit'][] = 'islandora_oai_download_link_handler_configuration_submit';
 }
