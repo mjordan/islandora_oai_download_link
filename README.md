@@ -1,6 +1,6 @@
 # Islandora OAI Download Link
 
-Islandora utility module that adds a custom request handler for the Islandora OAI module. Currently under heavy development, do not use yet.
+Islandora utility module that adds a custom request handler for the Islandora OAI module. Currently under development, do not use yet.
 
 ## Requirements
 
@@ -17,10 +17,18 @@ This module adds to the default response handler provided by Islandora OAI. To u
 
 The changes this module makes to the default OAI metadata are limited to adding the elements containig the direct download links, and requests that do not fall within allowed IP ranges or for objects not configured in a mapping remain unaffected.
 
+If enabled and configured, this module adds the following elements to the OAI metadata formats/prefixes:
+
+* oai_dc: `<dc:identifier>http://localhost:8000/islandora/object/testing:38/datastream/OBJ/download</dc:identifier>` (note that this <dc:identifier> is added as the first <dc:identifier> if any already exist in the metadata)
 
 # Maintainer
 
 * [Mark Jordan](https://github.com/mjordan)
+
+# To do
+
+* Add support for MODS.
+* Add IP address checking.
 
 ## Development and feedback
 
