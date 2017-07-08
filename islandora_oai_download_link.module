@@ -16,7 +16,7 @@ function islandora_oai_download_link_islandora_oai_identify_request_handler() {
   return array(
     'islandora_oai_download_link' => array(
       'label' => t('Islandora OAI with download link'),
-      'description' => t("Adds a direct download link to the standard OAI implementation for Islandora's OAI DC."),
+      'description' => t("Adds a direct download link to the standard OAI implementation for Islandora's OAI DC and MODS."),
       'configuration' => 'admin/islandora/tools/islandora-oai/handler',
       'requests' => array(
         'ListIdentifiers' => array(
@@ -57,8 +57,8 @@ function islandora_oai_download_link_form_islandora_oai_handler_configuration_fo
   $form['islandora_oai_download_links'] = array(
     '#type' => 'fieldset',
     '#title' => t('Download links'),
-    '#description' => t('This OAI request handler adds elements to the DC records containing ' .
-        'direct links to download a file for each object.'),
+    '#description' => t("This OAI request handler adds elements to the OAI records containing " .
+        "direct links to download a file for each object. See the module's README for more information."),
     '#collapsible' => FALSE,
     '#collapsed' => TRUE,
   );
