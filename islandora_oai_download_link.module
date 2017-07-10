@@ -1,5 +1,7 @@
 <?php
 
+define('ISLANDORA_OAI_DOWLOAD_LINK_DEFAULT_CMODEL_LINK_MAPPINGS', "islandora:sp_basic_image = OBJ\nislandora:sp_large_image_cmodel = JP2\nir:thesisCModel = PDF\nir:citationCModel = PDF\nislandora:bookCModel = PDF\nislandora:newspaperIssueCModel = PDF\nislandora:sp_pdf = OBJ\nislandora:sp_videoCModel = MP4");
+
 /**
  * @file
  * Module file.
@@ -67,7 +69,7 @@ function islandora_oai_download_link_form_islandora_oai_handler_configuration_fo
     '#title' => t('Content model to link mappings for download links'),
     '#description' => t('Enter, one per line, mappings for which datastream should be included ' .
       'in the download links provided to harvesters.'),
-      '#default_value' => variable_get('islandora_oai_download_link_cmodel_link_mappings', 'islandora:sp_basic_image = OBJ'),
+      '#default_value' => variable_get('islandora_oai_download_link_cmodel_link_mappings', ISLANDORA_OAI_DOWLOAD_LINK_DEFAULT_CMODEL_LINK_MAPPINGS),
   );
   $form['islandora_oai_download_links']['islandora_oai_download_link_allowed_ips'] = array(
     '#type' => 'textarea',

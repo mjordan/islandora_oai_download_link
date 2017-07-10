@@ -116,7 +116,7 @@ function islandora_oai_download_modify_mods($params, $mods) {
 function islandora_oai_download_get_dsid($pid) {
   $object = islandora_object_load($pid);
   $object_cmodels = $object->models;
-  $map = variable_get('islandora_oai_download_link_cmodel_link_mappings', 'islandora:sp_basic_image = OBJ');
+  $map = variable_get('islandora_oai_download_link_cmodel_link_mappings', ISLANDORA_OAI_DOWLOAD_LINK_DEFAULT_CMODEL_LINK_MAPPINGS);
   $mappings = preg_split("/\\r\\n|\\r|\\n/", $map);
   foreach ($mappings as $mapping) {
     list($cmodel, $dsid) = explode('=', $mapping);
