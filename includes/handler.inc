@@ -127,7 +127,7 @@ function islandora_oai_download_get_dsid($pid) {
 
   foreach ($object_cmodels as $object_cmodel) {
     if (in_array($object_cmodel, array_keys($dsids))) {
-      return $dsids[$cmodel];
+      return $dsids[$object_cmodel];
     }
   }
 }
