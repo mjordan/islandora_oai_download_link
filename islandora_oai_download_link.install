@@ -12,6 +12,7 @@ function islandora_oai_download_link_uninstall() {
   $variables = array(
     'islandora_oai_download_link_cmodel_link_mappings',
     'islandora_oai_download_link_allowed_ips',
+    'islandora_oai_download_link_mods_fragment',
   );
   array_walk($variables, 'variable_del');
 }
