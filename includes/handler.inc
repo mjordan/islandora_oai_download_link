@@ -135,11 +135,35 @@ function islandora_oai_download_get_dsid($pid) {
 /**
  * Checks the OAI harvester's IP address against the configured whitelist.
  *
+ * CIDR notation check based on example provided by claudiu at cnixs dot com
+ * at http://php.net/manual/en/ref.network.php.
+ *
  * @return bool
- *   TRUE if the harvester is in the whitelist, FALSE if not.
+ *   TRUE if the harvester is in the whitelist or if there is no whitelist,
+ *   FALSE if not.
  */
 function islandora_oai_download_link_check_harvester_ip() {
-  // @todo: Complete this.
-  $whitelist = variable_get('islandora_oai_download_link_allowed_ips', '');
-  return TRUE;
+  $client_address = ip2long(ip_address());
+
+  $ip_ranges = variable_get('islandora_oai_download_link_allowed_ips', '');
+  if (!strlen($ip_ranges)) {
+    return TRUE;
+  }
+
+  // If there is a whitelist, check the client IP address against
+  // the configured CIDR ranges.
+  $is_allowed = FALSE;
+  $cidrs = preg_split("/\\r\\n|\\r|\\n/", $ip_ranges);
+  foreach ($cidrs as $cidr) {
+    list ($net, $mask) = split ("/", $cidr);
+    $ip_net = ip2long($net);
+    $ip_mask = ~((1 << (32 - $mask)) - 1);
+    $ip_ip = ip2long($client_address);
+    $ip_ip_net = $ip_ip & $ip_mask;
+    if ($ip_ip_net == $ip_net) {
+      $is_allowed = TRUE;
+    }
+  }
+
+  return $is_allowed;
 }
