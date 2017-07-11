@@ -44,6 +44,7 @@ function islandora_oai_download_link_object_response_xml($params) {
  * Form submit handler.
  */
 function islandora_oai_download_link_handler_configuration_submit($form, $form_state) {
+  variable_set('islandora_oai_download_link_mods_fragment', $form_state['values']['islandora_oai_download_links']['islandora_oai_download_link_mods_fragment']);
   variable_set('islandora_oai_download_link_cmodel_link_mappings', $form_state['values']['islandora_oai_download_links']['islandora_oai_download_link_cmodel_link_mappings']);
   variable_set('islandora_oai_download_link_allowed_ips', $form_state['values']['islandora_oai_download_links']['islandora_oai_download_link_allowed_ips']);
 }
@@ -100,8 +101,28 @@ function islandora_oai_download_modify_dc($params, $oai_dc) {
  *   The modified MODS document.
  */
 function islandora_oai_download_modify_mods($params, $mods) {
-  // For now, return the XML unmodified.
-  return $mods;
+  $dom = new DOMDocument;
+  $dom->preserveWhiteSpace = FALSE;
+  $dom->formatOutput = TRUE;
+  $dom->loadXML($mods);
+
+  $dsid = islandora_oai_download_get_dsid($params['pid']);
+  global $base_url;
+  $download_url = $base_url . '/islandora/object/' . $params['pid'] . '/datastream/' . $dsid . '/download';
+
+  $fragment_template = variable_get('islandora_oai_download_link_mods_fragment', '<location><url access="download">%url%</url></location>');
+  if (!strlen($fragment_template)) {
+    return $mods;
+  }
+
+  $fragment_populated = preg_replace('/%url%/', $download_url, $fragment_template);
+  $fragment = $dom->createDocumentFragment();
+  $fragment->appendXML($fragment_populated);
+  $dom->documentElement->appendChild($fragment);
+
+  $modified_mods = $dom->saveXML($dom->documentElement);
+
+  return $modified_mods;
 }
 
 /**
