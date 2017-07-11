@@ -29,11 +29,10 @@ If enabled and configured, this module adds the following elements to the OAI me
 ## To do
 
 * Add support for MODS, and if there are use cases, for ETDMS.
-* Add IP address checking.
 
-## Development and feedback
+## Issues, feedback and feature requests
 
-Pull requests are welcome, as are use cases and suggestions. Please open an issue before creating a pull request.
+Feel free to use the Github issue queue for bugs, use cases and suggestions. Please open an issue before creating a pull request.
 
 ## License
 
