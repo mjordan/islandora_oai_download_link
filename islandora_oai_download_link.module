@@ -55,6 +55,11 @@ function islandora_oai_download_link_islandora_oai_identify_request_handler() {
  * Implements hook_form_alter().
  */
 function islandora_oai_download_link_form_islandora_oai_handler_configuration_form_alter(&$form, $form_state, $form_id) {
+  $enabled_handler = variable_get('islandora_oai_request_handler', 'islandora_oai');
+  if ($enabled_handler != 'islandora_oai_download_link') {
+    return;
+  }
+
   module_load_include('inc', 'islandora_oai_download_link', 'includes/handler');
   $form['islandora_oai_download_links'] = array(
     '#type' => 'fieldset',
